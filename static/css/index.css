@@ -133,5 +133,26 @@ body {
   font-size: smaller;
 }
 
+.section {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+/* 连续 section 之间更紧凑 */
+.section + .section {
+  padding-top: 0.5rem;
+}
+
+/* 标题上下间距更小 */
+.section .title {
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* 说明文字与下一节之间收紧 */
+.section .note {
+  margin-bottom: 0.25rem;
+}
+
 
 

@@ -32,7 +32,7 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/android-chrome-512x512.png">
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
@@ -190,36 +190,306 @@
         <h2 class="title is-3 has-text-centered">Methods</h2>
         <div class="content has-text-justified">
           <img src="static/images/main.png" width="100%" alt="OptMark Method Overview" class="responsive-image">
-          <md-block></md-block>The robust watermark is embedded into the diffusion latent space during the generation process through inference time optimization. In the Decoding phase, the watermark embedding is extracted using a pre-trained message decoder, and the secret message is retrieved by comparing the decoded watermark embedding against a predefined key carrier.</md-block>
+          <md-block>The robust watermark is embedded into the diffusion latent space during the generation process through inference time optimization. In the Decoding phase, the watermark embedding is extracted using a pre-trained message decoder, and the secret message is retrieved by comparing the decoded watermark embedding against a predefined key carrier.</md-block>
+          <img src="static/images/message_embed.png" width="100%" alt="OptMark Message Embedding" class="responsive-image">
+          <md-block>OptMark’s imprinting process consists of two sequential stages: first, a structure watermark is injected into the initial latent state of generation; then, a detail watermark is embedded at an intermediate timestep. These complementary watermarks work in concert to maximize overall robustness.</md-block>
         </div>
         <!--/ Environment Infrastructure. -->
       </div>
     </section>
 
-    <section class="section">
-      <div class="container is-max-desktop">
-        <!-- Environment Infrastructure. -->
-        <h2 class="title is-3 has-text-centered">Visualizations</h2>
-        <div class="content has-text-justified">
-          <img src="static/images/case_step2.png" width="100%" alt="" class="responsive-image">
-          <img src="static/images/case_step3.png" width="100%" alt="" class="responsive-image">
-          <img src="static/images/case_step4.png" width="100%" alt="" class="responsive-image">
-          <img src="static/images/case_step5.png" width="100%" alt="" class="responsive-image">
-          <!-- <img src="static/images/case_dall2.png" width="100%" alt="" class="responsive-image"> -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Environment Infrastructure. -->
+      <h2 class="title is-3 has-text-centered">Robustness Performance Comparison on Various Attacks</h2>
 
-
-
-        </div>
-        <!--/ Environment Infrastructure. -->
+      <div class="tabs is-centered is-boxed" style="margin-bottom: 1rem;">
+        <ul id="robustness-tabs">
+          <li class="is-active" data-target="tab-multibit"><a>Multi-bit Comparison</a></li>
+          <li data-target="tab-zerobit"><a>Zero-bit Comparison</a></li>
+        </ul>
       </div>
-    </section>
 
+      <div id="tab-multibit">
+        <div class="table-container">
+          <table class="table is-fullwidth is-striped has-text-centered">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th colspan="2">None</th>
+                <th colspan="2">Geometric</th>
+                <th colspan="2">Valuemetric</th>
+                <th colspan="2">Editing</th>
+                <th colspan="2">Regeneration</th>
+                <th colspan="2">Average</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th>Bit Acc.</th>
+                <th>TPR</th>
+                <th>Bit Acc.</th>
+                <th>TPR</th>
+                <th>Bit Acc.</th>
+                <th>TPR</th>
+                <th>Bit Acc.</th>
+                <th>TPR</th>
+                <th>Bit Acc.</th>
+                <th>TPR</th>
+                <th>Bit Acc.</th>
+                <th>TPR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DwtDct</td>
+                <td>0.828</td>
+                <td>0.576</td>
+                <td class="has-text-danger">0.501</td>
+                <td class="has-text-danger">0.000</td>
+                <td class="has-text-danger">0.509</td>
+                <td class="has-text-danger">0.363</td>
+                <td class="has-text-danger">0.719</td>
+                <td class="has-text-danger">0.256</td>
+                <td class="has-text-danger">0.494</td>
+                <td class="has-text-danger">0.000</td>
+                <td class="has-text-danger">0.573</td>
+                <td class="has-text-danger">0.125</td>
+              </tr>
+              <tr>
+                <td>DwtDctSvd</td>
+                <td><strong>1.000</strong></td>
+                <td><strong>1.000</strong></td>
+                <td class="has-text-danger">0.468</td>
+                <td class="has-text-danger">0.000</td>
+                <td class="has-text-danger">0.701</td>
+                <td class="has-text-danger">0.405</td>
+                <td>0.837</td>
+                <td>0.671</td>
+                <td class="has-text-danger">0.605</td>
+                <td class="has-text-danger">0.022</td>
+                <td class="has-text-danger">0.679</td>
+                <td class="has-text-danger">0.340</td>
+              </tr>
+              <tr>
+                <td>RivaGAN</td>
+                <td>0.994</td>
+                <td>0.994</td>
+                <td class="has-text-danger">0.742</td>
+                <td class="has-text-danger">0.492</td>
+                <td>0.974</td>
+                <td>0.966</td>
+                <td>0.914</td>
+                <td>0.775</td>
+                <td class="has-text-danger">0.570</td>
+                <td class="has-text-danger">0.003</td>
+                <td class="has-text-danger">0.835</td>
+                <td class="has-text-danger">0.641</td>
+              </tr>
+              <tr>
+                <td>SSL Watermark</td>
+                <td><strong>1.000</strong></td>
+                <td><strong>1.000</strong></td>
+                <td>0.996</td>
+                <td>0.998</td>
+                <td>0.989</td>
+                <td>0.994</td>
+                <td>0.922</td>
+                <td>0.750</td>
+                <td class="has-text-danger">0.596</td>
+                <td class="has-text-danger">0.005</td>
+                <td>0.906</td>
+                <td>0.763</td>
+              </tr>
+              <tr>
+                <td>Stable Signature</td>
+                <td>0.995</td>
+                <td>0.998</td>
+                <td>0.810</td>
+                <td>0.496</td>
+                <td>0.824</td>
+                <td>0.724</td>
+                <td class="has-text-danger">0.253</td>
+                <td class="has-text-danger">0.498</td>
+                <td class="has-text-danger">0.605</td>
+                <td class="has-text-danger">0.011</td>
+                <td class="has-text-danger">0.757</td>
+                <td class="has-text-danger">0.509</td>
+              </tr>
+              <tr>
+                <td>Gaussian Shading</td>
+                <td><strong>1.000</strong></td>
+                <td><strong>1.000</strong></td>
+                <td class="has-text-danger">0.634</td>
+                <td class="has-text-danger">0.250</td>
+                <td><strong>0.998</strong></td>
+                <td>0.997</td>
+                <td>0.870</td>
+                <td>0.750</td>
+                <td><strong>0.986</strong></td>
+                <td><strong>0.958</strong></td>
+                <td>0.880</td>
+                <td>0.756</td>
+              </tr>
+              <tr>
+                <td>AquaLoRA</td>
+                <td>0.963</td>
+                <td>0.979</td>
+                <td class="has-text-danger">0.690</td>
+                <td class="has-text-danger">0.271</td>
+                <td>0.954</td>
+                <td>0.973</td>
+                <td>0.858</td>
+                <td>0.702</td>
+                <td>0.930</td>
+                <td>0.955</td>
+                <td>0.866</td>
+                <td>0.741</td>
+              </tr>
+              <tr class="has-background-success-light">
+                <td><strong>OptMark (ours)</strong></td>
+                <td><strong>1.000</strong></td>
+                <td><strong>1.000</strong></td>
+                <td><strong>0.998</strong></td>
+                <td><strong>1.000</strong></td>
+                <td><strong>0.998</strong></td>
+                <td><strong>1.000</strong></td>
+                <td><strong>0.990</strong></td>
+                <td><strong>0.979</strong></td>
+                <td>0.923</td>
+                <td>0.872</td>
+                <td><strong>0.983</strong></td>
+                <td><strong>0.972</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
+      <div id="tab-zerobit" style="display: none;">
+        <div class="table-container">
+          <table class="table is-fullwidth is-striped has-text-centered">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>None</th>
+                <th>Geometric</th>
+                <th>Valuemetric</th>
+                <th>Editing</th>
+                <th>Regeneration</th>
+                <th>Average</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tree-Ring</td>
+                <td><strong>1.000</strong></td>
+                <td>0.773</td>
+                <td>0.970</td>
+                <td>0.765</td>
+                <td>0.953</td>
+                <td>0.874</td>
+              </tr>
+              <tr>
+                <td>RingID</td>
+                <td><strong>1.000</strong></td>
+                <td>0.750</td>
+                <td>0.999</td>
+                <td>0.717</td>
+                <td>0.814</td>
+                <td>0.841</td>
+              </tr>
+              <tr>
+                <td>WIND</td>
+                <td><strong>1.000</strong></td>
+                <td>0.985</td>
+                <td>0.976</td>
+                <td>0.748</td>
+                <td><strong>1.000</strong></td>
+                <td>0.930</td>
+              </tr>
+              <tr class="has-background-success-light">
+                <td><strong>OptMark (ours)</strong></td>
+                <td><strong>1.000</strong></td>
+                <td><strong>1.000</strong></td>
+                <td><strong>1.000</strong></td>
+                <td><strong>1.000</strong></td>
+                <td>0.993</td>
+                <td><strong>0.999</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
+      <script>
+        (function(){
+          var tabs = document.querySelectorAll('#robustness-tabs li');
+          tabs.forEach(function(tab){
+            tab.addEventListener('click', function(){
+              tabs.forEach(function(t){ t.classList.remove('is-active'); });
+              tab.classList.add('is-active');
+              var target = tab.getAttribute('data-target');
+              document.getElementById('tab-multibit').style.display = target === 'tab-multibit' ? '' : 'none';
+              document.getElementById('tab-zerobit').style.display = target === 'tab-zerobit' ? '' : 'none';
+            });
+          });
+        })();
+      </script>
+      <p class="has-text-centered" style="margin-top: 1rem; font-size: 0.9rem;">
+        <strong>Bold</strong> indicates best performance, <span class="has-text-danger">red text</span> indicates poor performance
+      </p>
+    </div>
+    <!--/ Environment Infrastructure. -->
   </div>
 </section>
 
-
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Image Quality Comparison</h2>
+      <h3 class="title is-4 has-text-centered" style="margin-top: 1.5rem;">Quantitative Comparison of Watermarked Image Quality</h3>
+      <div class="table-container">
+        <table class="table is-fullwidth is-striped has-text-centered">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>FID ↓</th>
+              <th>CLIP Score ↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>w/o watermark</td>
+              <td>124.309</td>
+              <td>0.3686</td>
+            </tr>
+            <tr>
+              <td>SSL Watermark</td>
+              <td>128.053</td>
+              <td>0.3555</td>
+            </tr>
+            <tr>
+              <td>Gaussian Shading</td>
+              <td>127.756</td>
+              <td><strong>0.3646</strong></td>
+            </tr>
+            <tr class="has-background-success-light">
+              <td><strong>OptMark (ours)</strong></td>
+              <td><strong>127.378</strong></td>
+              <td>0.3630</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="has-text-centered" style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Lower FID is better; higher CLIP Score is better. Bold indicates the best per column.
+      </p>
+      <h3 class="title is-4 has-text-centered" style="margin-top: 1.5rem;">Qualitative Comparison of Watermarked Image Quality</h3>
+      <div class="content has-text-justified">
+        <img src="static/images/result.png" width="100%" alt="OptMark Results" class="responsive-image">
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
